@@ -38,13 +38,12 @@ def main():
     env = Environment(
         loader=FileSystemLoader("."), autoescape=select_autoescape(["html", "xml"])
     )
-    dict_of_lists = collections.defaultdict(list)
+    grouped_wines = collections.defaultdict(list)
     for wine in excel_data_df:
-        dict_of_lists[wine["Категория"]].append(wine)
-    pprint(dict_of_lists)
+        grouped_wines[wine["Категория"]].append(wine)
     template = env.get_template("template.html")
 
-    rendered_page = template.render(age=age, text=get_text(age), wines=dict_of_lists)
+    rendered_page = template.render(age=age, text=get_text(age), wines=grouped_wines)
 
     with open("index.html", "w", encoding="utf8") as file:
         file.write(rendered_page)
